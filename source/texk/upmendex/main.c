@@ -312,12 +312,12 @@ int main(int argc, char **argv)
 
 	if (ecount!=0) {
 		verb_printf(efp,"%d errors, written in %s.\n",ecount,logfile);
-		lines=0;
 	}
-	if (lines==0) {
+	if ((lines==0)||(ecount!=0)) {
 		verb_printf(efp,"Nothing written in output file.\n");
 		if (efp!=stderr) fclose(efp);
-		exit(255);
+		if (ecount!=0) exit(255);
+		return 0;
 	}
 
 /*   sort index   */
