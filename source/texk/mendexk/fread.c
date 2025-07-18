@@ -35,7 +35,7 @@ int idxread(char *filename, int start)
 		else
 			fp=NULL;
 		if (fp==NULL) {
-			sprintf(buff,"%s.idx",filename);
+			sprintf(buff,"%s.idx",filename); /* possible buffer overrun */
 			if(kpse_in_name_ok(buff))
 				fp=nkf_open(buff,"rb");
 			else
@@ -44,7 +44,7 @@ int idxread(char *filename, int start)
 				warn_printf(efp,"Warning: Couldn't find input file %s.\n",filename);
 				return 1;
 			}
-			else strcpy(filename,buff);
+			else strcpy(filename,buff); /* possible buffer overrun */
 		}
 		verb_printf(efp,"Scanning input file %s.",filename);
 	}
