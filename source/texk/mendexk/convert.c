@@ -369,6 +369,14 @@ int pnumconv(char *page, int attr)
 {
 	int i,cc=0;
 
+	if (attr==-1) return cc;  /* in case attr==-1 (inappropriate page type) */
+	if (attr<-1 || attr>strlen(page_precedence)) {  /* avoid out-of-range reference */
+		/* should not come here */
+		fprintf (stderr, "\n\npnumconv(page,attr): called with page=\"%s\" and attr=%d.\n", page, attr);
+		fprintf (stderr, "  attr=%d is out-of-range for page_precedence=\"%s\".\nStopped.\n", attr, page_precedence);
+		exit(EXIT_FAILURE);
+	}
+
 	switch (page_precedence[attr]) {
 	case 'a':
 		cc=page[0]-'a'+1;
