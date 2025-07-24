@@ -30,5 +30,8 @@ xmalloc (size_t size)
         exit(EXIT_FAILURE);
     }
 
+    /* Try filling with some non-zero values (just for testing)... */
+    memset(new_mem, 'z', size);
+
     return new_mem;
 }
