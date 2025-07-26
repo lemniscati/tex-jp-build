@@ -502,6 +502,21 @@ static void chkpageattr(struct page *p)
 			cnt=0;
 			if (!((*page0>='0' && *page0<='9') || (*page0>='A' && *page0<='Z') || (*page0>='a' && *page0<='z'))) {
 				for (j=cc;j<PAGE_COMPOSIT_DEPTH;j++) p->attr[j]= -1;
+
+				/* Check whether all the remaining page number strings are shorter than 16 */
+				for (j=cc;j<PAGE_COMPOSIT_DEPTH;j++,page0=pcpos) {
+					pcpos=strstr(page0,page_compositor);
+					if (!pcpos) break;
+					if (pcpos-page0>=16) {
+						verb_printf(efp, "\nToo long page number string \"%s\".\n", page0);
+						exit(253);
+					}
+					pcpos+=pclen;
+				}
+				if (j>=PAGE_COMPOSIT_DEPTH) {
+					verb_printf(efp, "\nToo many fields of page number \"%s\".\n", p->page);
+					exit(253);
+				}
 				return;
 			}
 			pcpos=strstr(page0,page_compositor);
